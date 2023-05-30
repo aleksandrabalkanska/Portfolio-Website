@@ -1,8 +1,13 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 from flask_bootstrap import Bootstrap5
 from Project import Project
 import secrets
 import requests
+import smtplib
+import os
+
+MY_EMAIL = os.environ.get("PORT_EMAIL")
+PASSWORD = os.environ.get("PORT_PASS")
 
 app = Flask(__name__)
 secret_key = secrets.token_hex(16)
@@ -18,14 +23,30 @@ for project in projects:
     project_objects.append(project_obj)
 
 
-@app.route("/")
+@app.route("/", methods=["GET", "POST"])
 def home():
-    return render_template("index.html", projects=project_objects)
+    if request.method == 'POST':
+        name = request.form.get('name')
+        email = request.form.get('email')
+        message = request.form.get('message')
+        contents = f"Name: {name}\nEmail: {email}\nMessage: {message}"
+        with smtplib.SMTP("smtp.gmail.com") as connection:
+            connection.starttls()
+            connection.login(user=MY_EMAIL, password=PASSWORD)
+            connection.sendmail(
+                from_addr=MY_EMAIL,
+                to_addrs=MY_EMAIL,
+                msg=f"Subject: New Message!\n\n{contents}"
+            )
+        return render_template("index.html")
+    else:
+        return render_template("index.html", projects=project_objects)
 
 
 @app.route("/surprise")
 def surprise():
     return render_template("surprise.html")
+
 
 if __name__ == '__main__':
     app.run(debug=True)
