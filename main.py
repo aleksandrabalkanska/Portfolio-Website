@@ -1,13 +1,13 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect
 from flask_bootstrap import Bootstrap5
 from Project import Project
 import secrets
 import requests
-import smtplib
 import os
 
 MY_EMAIL = os.environ.get("PORT_EMAIL")
 PASSWORD = os.environ.get("PORT_PASS")
+WEB_FORM_KEY = os.environ.get("WEB_ACCESS_KEY")
 
 app = Flask(__name__)
 secret_key = secrets.token_hex(16)
@@ -26,21 +26,9 @@ for project in projects:
 @app.route("/", methods=["GET", "POST"])
 def home():
     if request.method == 'POST':
-        name = request.form.get('name')
-        email = request.form.get('email')
-        message = request.form.get('message')
-        contents = f"Name: {name}\nEmail: {email}\nMessage: {message}"
-        with smtplib.SMTP("smtp.gmail.com") as connection:
-            connection.starttls()
-            connection.login(user=MY_EMAIL, password=PASSWORD)
-            connection.sendmail(
-                from_addr=MY_EMAIL,
-                to_addrs=MY_EMAIL,
-                msg=f"Subject: New Message!\n\n{contents}"
-            )
-        return render_template("index.html")
+        return redirect("/")
     else:
-        return render_template("index.html", projects=project_objects)
+        return render_template("index.html", projects=project_objects, key=WEB_FORM_KEY)
 
 
 @app.route("/surprise")

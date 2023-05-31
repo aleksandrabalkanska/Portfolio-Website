@@ -12,7 +12,7 @@
         </header>
         <h3>My Python journey began with the course 100 Days of Code.</h3>
         <p>I have been documenting the projects I have created throughout the course.
-            This particular project is created with Flask, Jinja2, Boostrap, a HTML5 template, JSON, and SMTP. </p>
+            This particular project is created with Flask, Jinja2, Boostrap, a HTML5 template, JSON, and Web3Forms API. </p>
         <ul class="actions">
             <li><a href="{{ url_for('surprise') }}" class="button">Click for a surprise!</a></li>
         </ul>
@@ -39,11 +39,13 @@
     <!-- Three -->
     <section id="three">
         <h2>Get In Touch</h2>
-        <p>I am pretty proud to say I made this form work, so you can send me a message.</p>
+        <p>This form works too, so you can send me a message.</p>
         <div class="row">
             <div class="col-8 col-12-small">
-                <form method="post" action="{{url_for('home')}}">
+                <form method="post" action="https://api.web3forms.com/submit">
                     <div class="row gtr-uniform gtr-50">
+                        <input type="hidden" name="access_key" value="{{key}}">
+                         <input type="hidden" name="redirect" value="#">
                         <div class="col-6 col-12-xsmall"><input type="text" name="name" id="name" placeholder="Name"/>
                         </div>
                         <div class="col-6 col-12-xsmall"><input type="email" name="email" id="email"
