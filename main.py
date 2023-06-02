@@ -5,8 +5,6 @@ import secrets
 import requests
 import os
 
-MY_EMAIL = os.environ.get("PORT_EMAIL")
-PASSWORD = os.environ.get("PORT_PASS")
 WEB_FORM_KEY = os.environ.get("WEB_ACCESS_KEY")
 
 app = Flask(__name__)
