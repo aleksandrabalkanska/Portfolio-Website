@@ -1,7 +1,7 @@
 # Sample Portfolio Website
 
 This is a Flask-based web application that showcases different projects in a user-friendly interface.
-You can see a live deployment [here]([https://portfolio-website-bb1j.onrender.com/]).
+You can see a live deployment [here](https://portfolio-website-bb1j.onrender.com/).
 
 ## Packages
 
